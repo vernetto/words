@@ -15,7 +15,7 @@ public class Scans {
 	public Long getId() {
 		return id;
 	}
-	public String getFilename() {
+	public String getFileName() {
 		return filename;
 	}
 	public void setFilename(String filename) {

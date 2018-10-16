@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -17,6 +19,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class WordsApplication implements ApplicationRunner {
+	
 	@Autowired 
     private WordsRepository wordsRepository;
 	@Autowired 
@@ -28,6 +31,8 @@ public class WordsApplication implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+		Logger logger = LoggerFactory.getLogger(WordsApplication.class);
+
 		List<String> allWords = new ArrayList<String>();
 		String fileName = "D:\\pierre\\calibre\\Clifford D. Simak\\All'Ombra Di Tycho (275)\\All'Ombra Di Tycho - Clifford D. Simak.txt.transoutdestination";
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
@@ -51,11 +56,23 @@ public class WordsApplication implements ApplicationRunner {
 		one.setWord("mamma");
 		wordsRepository.save(one);
 		
-		Scans scan = new Scans();
-		scan.setFilename(fileName);
-		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
-		scan.setDate(dateFormat.format(new Date()));
-		scansRepository.save(scan);
+		// save scan to DB
+		List<Scans> existingScans = scansRepository.findByFilename(fileName);
+		Scans scan = null;
+		if (existingScans.size() == 0) {
+			logger.debug("creating SCANS record");
+			scan = new Scans();
+			scan.setFilename(fileName);
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+			scan.setDate(dateFormat.format(new Date()));
+			scansRepository.save(scan);
+		}
+		else {
+			logger.debug("updating SCANS record");
+			scan = existingScans.get(0);
+		}
+		
+		
 
 	}
 }
