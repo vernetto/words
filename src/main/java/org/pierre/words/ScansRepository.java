@@ -2,7 +2,6 @@ package org.pierre.words;
 
 import org.springframework.data.repository.CrudRepository;
 
-
-public interface WordsRepository extends CrudRepository<Words, Integer> {
+public interface ScansRepository extends CrudRepository<Scans, Integer> {
 
 }

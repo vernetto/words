@@ -24,4 +24,8 @@ public class Words {
 		this.word = word;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return this.word.equals(((Words) obj).word);
+	}	
 }
