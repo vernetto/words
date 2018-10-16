@@ -10,7 +10,7 @@ public class Scans {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	private String filename;
-	private String date;
+	private String scandate;
 	
 	public Long getId() {
 		return id;
@@ -21,11 +21,11 @@ public class Scans {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
-	public String getDate() {
-		return date;
+	public String getScandate() {
+		return scandate;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setScandate(String scandate) {
+		this.scandate = scandate;
 	}
 	public void setId(Long id) {
 		this.id = id;

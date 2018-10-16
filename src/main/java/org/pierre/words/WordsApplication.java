@@ -59,17 +59,21 @@ public class WordsApplication implements ApplicationRunner {
 		// save scan to DB
 		List<Scans> existingScans = scansRepository.findByFilename(fileName);
 		Scans scan = null;
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+		String dateNow = dateFormat.format(new Date());
+		
 		if (existingScans.size() == 0) {
 			logger.debug("creating SCANS record");
 			scan = new Scans();
 			scan.setFilename(fileName);
-			DateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
-			scan.setDate(dateFormat.format(new Date()));
+			scan.setScandate(dateNow);
 			scansRepository.save(scan);
 		}
 		else {
 			logger.debug("updating SCANS record");
 			scan = existingScans.get(0);
+			scan.setScandate(dateNow);
+			scansRepository.save(scan);
 		}
 		
 		
